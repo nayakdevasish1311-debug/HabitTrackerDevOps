@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habit-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habit-v1
+  template:
+    metadata:
+      labels:
+        app: habit-v1
+    spec:
+      containers:
+        - name: habit-tracker
+          image: devashis1311/habit-tracker:v1
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: habit-v1-service
+spec:
+  type: NodePort
+  selector:
+    app: habit-v1
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30081
